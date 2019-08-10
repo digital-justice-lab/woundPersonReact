@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Viz from './Viz.js'
+
 
 const PRODUCT_LIST = 'http://dev-woundperson.pantheonsite.io/jsonapi/node/product';
 //const DEFAULT_QUERY = 'redux';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
       products: [], // get the list of products. this is probably not necessary after refactor.
+      // for the barchart.
+      data: [12, 5, 6, 6, 9, 10],
+      width: 700,
+      height: 500,
+      id: 'root'
     };
   }
 
@@ -37,7 +45,8 @@ class App extends Component {
         <p>
           This might have the wound person
         </p>
-      </header>
+
+    </header>
     </div>
 
     );
@@ -48,11 +57,16 @@ class App extends Component {
 
 
 class Product extends React.Component {
+  // I made the totally quesionable choice to have this Product component
+  // also handle the rendering of the checkbox.  The checkbox itself can be
+  // its own component, as seen in the example here:
+  // https://react.tips/checkboxes-in-react-16/
   constructor(props) {
     super(props);
     this.state = {
-      isGoing: true,
-      numberOfGuests: 2,
+      color: "",
+  	  width: "",
+  	  toDraw: [],
     };
 
     // this reacts to when a box is checked.
@@ -61,12 +75,26 @@ class Product extends React.Component {
 
   handleInputChange(event) {
     const target = event.target;
+    // this doesn't work
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
+    // @todo - get it to remember the checked state
     this.setState({
       [name]: value
     });
+  }
+
+  onSubmit = (evt) => {
+    console.log('in submit');
+    evt.preventDefault();
+    const newShape = {
+      color : 'yellow',
+      width : 55,
+       // color: this.state.color,
+       // width: this.state.width,
+    }
+    this.setState({ toDraw: [...this.state.toDraw, newShape]})
   }
 
   render() {
@@ -74,10 +102,11 @@ class Product extends React.Component {
     console.log(products);
 
     return (
-      <form>
+      <div>
+      <form onSubmit={this.onSubmit}>
 
-      {products.map(product =>
-      <label htmlFor={product.id}>
+        {products.map(product =>
+      <label htmlFor={product.id} key={product.id}>
         {product.attributes.title}
         <input
           name={product.id}
@@ -89,8 +118,10 @@ class Product extends React.Component {
 
 
     )}
-
+    <button type="submit">draw!</button>
     </form>
+    <Viz shapes={this.state.toDraw} />
+    </div>
   );
   }
 }
