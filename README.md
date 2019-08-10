@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## prerequisites
+- make sure that you have npm, node, etc installed
+- when testing in Firefox, the easiest thing to do is to install an extension called `CORS Everywhere` that will let the browser bypass CORS restrictions.
+- It's pulling data from the dev pantheon site right now (url in App.js)
+- for now all you'll need to do is `cd where-you-cloned this; npm start` and then code in your favorite editor 
+
 ## Available Scripts
 
 In the project directory, you can run:
