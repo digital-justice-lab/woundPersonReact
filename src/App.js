@@ -14,7 +14,6 @@ class App extends Component {
     };
   }
 
-
   componentDidMount() {
     fetch(PRODUCT_LIST)
       .then(response => response.json())
@@ -22,13 +21,7 @@ class App extends Component {
       .then(data => this.setState({ products: data.data }));
   }
 
-  // this renders one product checkbox?
-  // or maybe all of them? idkkk.
-  renderProductCheckbox() {
-    return (
-      <Product />
-    );
-  }
+
 
   render () {
     const { products } = this.state;
@@ -42,21 +35,13 @@ class App extends Component {
 
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          This might have the wound person
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
 
-  );
-}
+    );
+  }
 }
 
 
@@ -68,7 +53,7 @@ class Product extends React.Component {
     this.state = {
       isGoing: true,
       numberOfGuests: 2,
-  };
+    };
 
     // this reacts to when a box is checked.
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -87,34 +72,26 @@ class Product extends React.Component {
   render() {
     const products = this.props.pdata;
     console.log(products);
+
     return (
-    {products.map(product =>
-      <li value={product.attributes.title}>
-        <a href={product.attributes.field_url.uri}>{product.attributes.title}</a>
-      </li>
-    )};
-
-
       <form>
-        <label>
-          Is going:
-          <input
-            name="isGoing"
-            type="checkbox"
-            checked={this.state.isGoing}
-            onChange={this.handleInputChange} />
-        </label>
+
+      {products.map(product =>
+      <label htmlFor={product.id}>
+        {product.attributes.title}
+        <input
+          name={product.id}
+          key={product.id}
+          type="checkbox"
+          onChange={this.handleInputChange} />
         <br />
-        <label>
-          Number of guests:
-          <input
-            name="numberOfGuests"
-            type="number"
-            value={this.state.numberOfGuests}
-            onChange={this.handleInputChange} />
-        </label>
-      </form>
-    );
+      </label>
+
+
+    )}
+
+    </form>
+  );
   }
 }
 
